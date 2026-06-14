@@ -1,0 +1,2042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#15130F">
+<title>One Day at a Time</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="icon" href="icons/icon-192.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Frank+Ruhl+Libre:wght@400;500;700;900&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#15130F;
+  --ink:#F2ECE2;
+  --terracotta:#E8825F;
+  --sage:#9FBE8C;
+  --gold:#D9BD86;
+  --card:#221F19;
+  --card-line:#3A3429;
+  --muted:#9A9080;
+  --danger:#E0695C;
+  --radius:18px;
+  --shadow: 0 4px 28px rgba(0,0,0,0.45);
+  --font-display-en: 'Fraunces', serif;
+  --font-display-he: 'Frank Ruhl Libre', serif;
+  --font-body: 'Inter', 'Frank Ruhl Libre', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:var(--font-body);
+  min-height:100vh;
+  -webkit-font-smoothing:antialiased;
+  background-image:
+    radial-gradient(circle at 1px 1px, rgba(242,236,226,0.045) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+html[dir="rtl"] body{ font-family: var(--font-body); }
+html[dir="rtl"] .display{ font-family: var(--font-display-he), serif; }
+html[dir="ltr"] .display{ font-family: var(--font-display-en), serif; }
+
+.app{
+  max-width:640px;
+  margin:0 auto;
+  padding: 18px 18px 100px;
+  min-height:100vh;
+  position:relative;
+}
+
+/* Header */
+.header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  padding: 10px 4px 22px;
+  border-bottom: 1px solid var(--card-line);
+  margin-bottom: 22px;
+}
+.title-block .eyebrow{
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--terracotta);
+  font-weight:700;
+  margin-bottom:6px;
+}
+.title-block h1{
+  font-size: 28px;
+  margin:0;
+  line-height:1.15;
+  font-weight:600;
+}
+.title-block .sub{
+  font-size:13px;
+  color: var(--muted);
+  margin-top:6px;
+}
+.title-block .dedication{
+  font-family: var(--font-display-en);
+  font-style: italic;
+  font-size:13px;
+  color: var(--terracotta);
+  margin-top:10px;
+  opacity:0.9;
+}
+html[dir="rtl"] .title-block .dedication{
+  font-family: var(--font-display-he);
+  font-style: normal;
+}
+.lang-toggle{
+  display:flex;
+  gap:6px;
+  background: var(--card);
+  border-radius: 999px;
+  padding: 4px;
+  border: 1px solid var(--card-line);
+  flex-shrink:0;
+  margin-inline-start: 12px;
+}
+.lang-toggle button{
+  border:none;
+  background:transparent;
+  font-family: var(--font-mono);
+  font-size:12px;
+  font-weight:700;
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor:pointer;
+  color: var(--muted);
+  transition: all .2s;
+}
+.lang-toggle button.active{
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* Streak banner */
+.streak-banner{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background: linear-gradient(135deg, rgba(232,130,95,0.18), rgba(159,190,140,0.12));
+  color: var(--ink);
+  border: 1px solid var(--card-line);
+  border-radius: var(--radius);
+  padding: 16px 20px;
+  margin-bottom: 22px;
+  box-shadow: var(--shadow);
+}
+.streak-banner .flame{
+  font-size:28px;
+  line-height:1;
+}
+.streak-banner .text strong{
+  font-family: var(--font-mono);
+  font-size: 22px;
+  display:block;
+  letter-spacing: 0.02em;
+}
+.streak-banner .text span{
+  font-size:12px;
+  opacity:0.75;
+}
+
+/* Tabs */
+.tabs{
+  display:flex;
+  gap:6px;
+  margin-bottom: 20px;
+  overflow-x:auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none;}
+.tab{
+  font-family: var(--font-body);
+  font-size: 13px;
+  font-weight:600;
+  padding: 10px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--card-line);
+  background: transparent;
+  color: var(--muted);
+  cursor:pointer;
+  white-space:nowrap;
+  transition: all .2s;
+  flex-shrink:0;
+}
+.tab.active{
+  background: var(--terracotta);
+  border-color: var(--terracotta);
+  color: #fff;
+}
+
+.view{ display:none; animation: fadeIn .35s ease; }
+.view.active{ display:block; }
+@keyframes fadeIn{ from{opacity:0; transform:translateY(6px);} to{opacity:1; transform:translateY(0);} }
+
+/* Calendar */
+.cal-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom: 14px;
+}
+.cal-nav .month-label{
+  font-size:20px;
+  font-weight:600;
+}
+.cal-nav .navbtns{ display:flex; gap:8px; }
+.cal-nav button{
+  width:36px;height:36px;
+  border-radius:50%;
+  border:1px solid var(--card-line);
+  background: var(--card);
+  font-size:16px;
+  cursor:pointer;
+  display:flex;align-items:center;justify-content:center;
+  color: var(--ink);
+}
+.cal-nav button:disabled{ opacity:0.3; cursor:default; }
+
+.weekdays{
+  display:grid;
+  grid-template-columns: repeat(7,1fr);
+  margin-bottom:6px;
+}
+.weekdays div{
+  text-align:center;
+  font-family: var(--font-mono);
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:0.08em;
+  text-transform:uppercase;
+  color: var(--muted);
+  padding-bottom:4px;
+}
+
+.calendar-grid{
+  display:grid;
+  grid-template-columns: repeat(7,1fr);
+  gap: 6px;
+}
+.day-cell{
+  position:relative;
+  aspect-ratio: 1/1;
+  border-radius: 14px;
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  cursor:pointer;
+  transition: transform .15s, box-shadow .15s;
+  -webkit-tap-highlight-color: transparent;
+}
+.day-cell.empty{ visibility:hidden; pointer-events:none; }
+.day-cell .num{
+  font-family: var(--font-mono);
+  font-size:13px;
+  font-weight:600;
+  color: var(--ink);
+  opacity:0.55;
+  position:absolute;
+  top:6px;
+  inset-inline-start:8px;
+}
+.day-cell.today{
+  box-shadow: inset 0 0 0 2px var(--terracotta);
+}
+.day-cell.future{
+  opacity:0.4;
+  cursor:default;
+}
+.day-cell:active{ transform: scale(0.94); }
+.day-cell .has-note-dot{
+  position:absolute;
+  bottom:6px;
+  inset-inline-end:8px;
+  width:6px;height:6px;
+  border-radius:50%;
+  background: var(--terracotta);
+}
+
+/* Stamp */
+.stamp{
+  width: 68%;
+  height: 68%;
+  border-radius:50%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size: 26px;
+  color: var(--sage);
+  border: 3px solid var(--sage);
+  transform: rotate(-8deg) scale(0);
+  opacity:0;
+  transition: transform .35s cubic-bezier(.34,1.56,.64,1), opacity .25s;
+}
+.day-cell.stamped .stamp{
+  transform: rotate(-8deg) scale(1);
+  opacity:1;
+}
+.day-cell.stamped{
+  background: rgba(159,190,140,0.10);
+  border-color: var(--sage);
+}
+@keyframes stampPop{
+  0%{ transform: rotate(-8deg) scale(2.6); opacity:0; }
+  60%{ transform: rotate(-8deg) scale(0.9); opacity:1; }
+  100%{ transform: rotate(-8deg) scale(1); opacity:1; }
+}
+.day-cell.stamp-anim .stamp{ animation: stampPop .4s cubic-bezier(.34,1.56,.64,1); }
+
+/* Day modal */
+.modal-overlay{
+  position:fixed; inset:0;
+  background: rgba(46,42,36,0.45);
+  display:none;
+  align-items:flex-end;
+  justify-content:center;
+  z-index:100;
+  backdrop-filter: blur(2px);
+}
+.modal-overlay.active{ display:flex; animation: fadeIn .2s ease; }
+.modal-sheet{
+  background: var(--paper);
+  border-radius: 24px 24px 0 0;
+  width:100%;
+  max-width:640px;
+  max-height:85vh;
+  overflow-y:auto;
+  padding: 24px 22px 32px;
+  box-shadow: 0 -8px 30px rgba(0,0,0,0.15);
+  animation: slideUp .3s cubic-bezier(.16,1,.3,1);
+}
+@keyframes slideUp{ from{ transform: translateY(100%); } to{ transform: translateY(0); } }
+.modal-sheet h2{
+  margin:0 0 4px;
+  font-size:22px;
+}
+.modal-sheet .modal-date{
+  font-family: var(--font-mono);
+  font-size:12px;
+  color: var(--muted);
+  margin-bottom:18px;
+}
+.level-options{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+  margin-bottom:20px;
+}
+.level-card{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background: var(--card);
+  border-radius: 14px;
+  padding: 12px 14px;
+  cursor:pointer;
+  border: 1.5px solid var(--card-line);
+  text-align: start;
+  font-family: var(--font-body);
+  color: var(--ink);
+  transition: border-color .2s, background .2s, transform .1s;
+}
+.level-card:active{ transform: scale(0.98); }
+.level-card.selected{
+  border-color: var(--sage);
+  background: rgba(159,190,140,0.10);
+}
+.level-card[data-level="3"].selected{
+  border-color: var(--danger);
+  background: rgba(224,105,92,0.10);
+}
+.level-stamp-preview{
+  width:46px;height:46px;
+  flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;
+  border: 2px solid var(--card-line);
+  color: var(--muted);
+}
+.level-card.selected .level-stamp-preview{ border-color: var(--sage); color: var(--sage); }
+.level-card[data-level="3"].selected .level-stamp-preview{ border-color: var(--danger); color: var(--danger); }
+.level-stamp-preview.check-mark{
+  font-size:22px;
+  font-weight:800;
+  color: var(--muted);
+}
+.level-card.selected .level-stamp-preview.check-mark{ color: var(--sage); }
+.level-stamp-preview svg{ width:30px; height:30px; }
+.level-text .level-title{ font-weight:600; font-size:14px; }
+.level-text .level-sub{ font-size:12px; color:var(--muted); margin-top:2px; }
+
+.conditional-fields{
+  margin-bottom:18px;
+  animation: fadeIn .3s ease;
+}
+
+/* Calendar stamp icons (swan / check) */
+.day-cell .stamp svg{ width:62%; height:62%; }
+.day-cell.level-3 .stamp{ border-color: var(--danger) !important; color: var(--danger) !important; }
+.day-cell.level-3.stamped{ background: rgba(224,105,92,0.10); border-color: var(--danger); }
+
+/* Full-screen celebration */
+.celebration-overlay{
+  position:fixed; inset:0;
+  z-index:300;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  pointer-events:none;
+  background: radial-gradient(circle at 50% 45%, rgba(159,190,140,0.18), transparent 60%);
+}
+.celebration-overlay.active{ display:flex; }
+.celebration-stamp{
+  width:160px; height:160px;
+  border-radius:50%;
+  border: 5px solid var(--sage);
+  display:flex; align-items:center; justify-content:center;
+  color: var(--sage);
+  transform: scale(0) rotate(-14deg);
+  opacity:0;
+  background: rgba(34,31,25,0.6);
+  backdrop-filter: blur(2px);
+}
+.celebration-stamp svg{ width:64%; height:64%; }
+.celebration-stamp.check-mark{ font-size:80px; font-weight:800; }
+.celebration-overlay.play .celebration-stamp{
+  animation: celebrationPop 1.1s cubic-bezier(.22,1.5,.46,0.9) forwards;
+}
+@keyframes celebrationPop{
+  0%{ transform: scale(0) rotate(-20deg); opacity:0; }
+  45%{ transform: scale(1.25) rotate(6deg); opacity:1; }
+  65%{ transform: scale(0.95) rotate(-3deg); opacity:1; }
+  85%{ transform: scale(1.05) rotate(1deg); opacity:1; }
+  100%{ transform: scale(1) rotate(0deg); opacity:0; }
+}
+.confetti-field{
+  position:absolute; inset:0;
+  overflow:hidden;
+}
+.confetti-piece{
+  position:absolute;
+  top:-10%;
+  width:8px; height:14px;
+  opacity:0;
+  border-radius:2px;
+}
+.celebration-overlay.play .confetti-piece{
+  animation: confettiFall 1.6s ease-in forwards;
+}
+@keyframes confettiFall{
+  0%{ opacity:1; transform: translateY(0) rotate(0deg); }
+  100%{ opacity:0; transform: translateY(110vh) rotate(540deg); }
+}
+
+.field-label{
+  font-size:13px;
+  font-weight:600;
+  margin-bottom:8px;
+  display:block;
+}
+.field-hint{
+  font-size:12px;
+  color:var(--muted);
+  margin-bottom:10px;
+}
+textarea{
+  width:100%;
+  border-radius:14px;
+  border: 1px solid var(--card-line);
+  background: var(--card);
+  padding: 12px 14px;
+  font-family: var(--font-body);
+  font-size:14px;
+  resize:vertical;
+  min-height:90px;
+  color: var(--ink);
+}
+textarea:focus{ outline: 2px solid var(--terracotta); outline-offset:1px; }
+
+.btn{
+  font-family: var(--font-body);
+  font-weight:700;
+  font-size:14px;
+  padding: 13px 20px;
+  border-radius: 999px;
+  border:none;
+  cursor:pointer;
+  transition: opacity .2s, transform .1s;
+}
+.btn:active{ transform: scale(0.97); }
+.btn-primary{ background: var(--terracotta); color:#fff; }
+.btn-secondary{ background: var(--card); color: var(--ink); border:1px solid var(--card-line); }
+.btn-block{ width:100%; }
+.modal-actions{ margin-top:18px; display:flex; gap:10px; }
+
+/* Stats / Journal view */
+.section-title{
+  font-size:18px;
+  font-weight:600;
+  margin: 28px 0 12px;
+}
+.section-title:first-child{ margin-top:0; }
+.stats-grid{
+  display:grid;
+  grid-template-columns: repeat(3,1fr);
+  gap:10px;
+  margin-bottom: 6px;
+}
+.stat-box{
+  background: var(--card);
+  border: 1px solid var(--card-line);
+  border-radius:16px;
+  padding: 16px 10px;
+  text-align:center;
+}
+.stat-box .num{
+  font-family: var(--font-mono);
+  font-size:24px;
+  font-weight:700;
+  color: var(--terracotta);
+}
+.stat-box .label{
+  font-size:11px;
+  color: var(--muted);
+  margin-top:4px;
+  line-height:1.3;
+}
+.journal-entry{
+  background: var(--card);
+  border:1px solid var(--card-line);
+  border-radius:16px;
+  padding:14px 16px;
+  margin-bottom:10px;
+}
+.journal-entry.journal-entry-smoked{
+  border-color: rgba(224,105,92,0.35);
+}
+.journal-entry .je-date{
+  font-family: var(--font-mono);
+  font-size:11px;
+  color: var(--terracotta);
+  font-weight:700;
+  margin-bottom:6px;
+  text-transform:uppercase;
+  letter-spacing:0.05em;
+}
+.journal-entry.journal-entry-smoked .je-date{ color: var(--danger); }
+.journal-entry .je-label{
+  font-size:11px;
+  font-weight:700;
+  color: var(--muted);
+  text-transform:uppercase;
+  letter-spacing:0.04em;
+  margin-top:8px;
+  margin-bottom:3px;
+}
+.journal-entry .je-label:first-of-type{ margin-top:0; }
+.journal-entry .je-text{
+  font-size:14px;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+.empty-state{
+  text-align:center;
+  padding: 40px 20px;
+  color: var(--muted);
+  font-size:14px;
+}
+.empty-state .emoji{ font-size:36px; display:block; margin-bottom:10px; }
+
+/* Surprise / scratch card view */
+.month-picker{
+  display:flex;
+  gap:8px;
+  overflow-x:auto;
+  margin-bottom:20px;
+  scrollbar-width:none;
+}
+.month-picker::-webkit-scrollbar{display:none;}
+.month-chip{
+  font-family: var(--font-mono);
+  font-size:12px;
+  font-weight:700;
+  padding: 8px 14px;
+  border-radius:999px;
+  border:1px solid var(--card-line);
+  background: var(--card);
+  color: var(--muted);
+  cursor:pointer;
+  white-space:nowrap;
+  flex-shrink:0;
+}
+.month-chip.active{
+  background: var(--ink);
+  color: var(--paper);
+  border-color: var(--ink);
+}
+.surprise-card{
+  border-radius: 22px;
+  overflow:hidden;
+  box-shadow: var(--shadow);
+  border:1px solid var(--card-line);
+}
+.surprise-card .sc-header{
+  background: var(--card);
+  padding: 20px;
+  text-align:center;
+}
+.surprise-card .sc-header .month-name{
+  font-size:20px;
+  font-weight:600;
+  margin-bottom:4px;
+}
+.surprise-card .sc-header .status{
+  font-family: var(--font-mono);
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:0.1em;
+  color: var(--muted);
+}
+.scratch-wrap{
+  position:relative;
+  aspect-ratio: 4/3;
+  background: var(--paper);
+}
+.scratch-reveal{
+  position:absolute; inset:0;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  padding: 24px;
+  gap:10px;
+}
+.scratch-reveal img{
+  width:84px;height:84px;
+  object-fit:cover;
+  border-radius:18px;
+  box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+}
+.scratch-reveal .emoji-icon{ font-size:56px; }
+.scratch-reveal .reveal-title{
+  font-size:20px;
+  font-weight:600;
+}
+.scratch-reveal .reveal-msg{
+  font-size:14px;
+  color: var(--ink);
+  opacity:0.85;
+  white-space:pre-wrap;
+}
+.scratch-canvas{
+  position:absolute; inset:0;
+  width:100%;
+  height:100%;
+  touch-action:none;
+  cursor: grab;
+}
+.scratch-hint{
+  position:absolute;
+  bottom:14px; left:0; right:0;
+  text-align:center;
+  font-family: var(--font-mono);
+  font-size:11px;
+  letter-spacing:0.1em;
+  text-transform:uppercase;
+  color: rgba(46,42,36,0.45);
+  pointer-events:none;
+}
+
+.locked-card, .fail-card{
+  padding: 36px 24px;
+  text-align:center;
+}
+.locked-card .emoji, .fail-card .emoji{ font-size:48px; display:block; margin-bottom:14px; }
+.locked-card h3, .fail-card h3{ font-size:18px; margin:0 0 8px; }
+.locked-card p, .fail-card p{
+  font-size:14px;
+  color: var(--ink);
+  opacity:0.8;
+  line-height:1.6;
+  white-space:pre-wrap;
+}
+.fail-card{ background: var(--card); }
+.locked-card{ background: var(--card); }
+.progress-row{
+  display:flex;
+  gap:6px;
+  justify-content:center;
+  margin: 16px 0;
+}
+.progress-dot{
+  width:14px;height:14px;
+  border-radius:50%;
+  background: var(--card-line);
+}
+.progress-dot.done{ background: var(--sage); }
+
+/* Admin */
+.admin-lock{
+  text-align:center;
+  padding: 60px 20px;
+}
+.admin-lock input{
+  font-family: var(--font-mono);
+  text-align:center;
+  font-size:18px;
+  letter-spacing:0.2em;
+  padding: 14px;
+  border-radius:14px;
+  border:1px solid var(--card-line);
+  width:160px;
+  margin: 16px 0;
+  background: var(--card);
+  color: var(--ink);
+}
+.admin-month-card{
+  background: var(--card);
+  border:1px solid var(--card-line);
+  border-radius:16px;
+  padding:16px;
+  margin-bottom:14px;
+}
+.admin-month-card h3{
+  margin:0 0 12px;
+  font-size:16px;
+}
+.admin-row{ margin-bottom:12px; }
+.admin-row label{
+  display:block;
+  font-size:12px;
+  font-weight:600;
+  margin-bottom:6px;
+  color: var(--muted);
+}
+.admin-row input[type="text"]{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid var(--card-line);
+  font-family: var(--font-body);
+  font-size:14px;
+  background: var(--paper);
+  color: var(--ink);
+}
+.icon-picker{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+}
+.icon-opt{
+  width:42px;height:42px;
+  border-radius:10px;
+  border:1px solid var(--card-line);
+  background: var(--paper);
+  font-size:20px;
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;
+}
+.icon-opt.selected{ border-color: var(--terracotta); background: rgba(232,130,95,0.15); }
+.toast{
+  position:fixed;
+  bottom:24px; left:50%;
+  transform: translateX(-50%);
+  background: var(--ink);
+  color: var(--paper);
+  padding: 12px 22px;
+  border-radius: 999px;
+  font-size:13px;
+  font-weight:600;
+  z-index:200;
+  opacity:0;
+  pointer-events:none;
+  transition: opacity .3s, transform .3s;
+}
+.toast.show{ opacity:1; transform: translateX(-50%) translateY(-8px); }
+
+footer{
+  text-align:center;
+  font-size:11px;
+  color: var(--muted);
+  margin-top:40px;
+  padding-bottom:10px;
+  font-family: var(--font-mono);
+}
+
+@media (max-width:380px){
+  .stats-grid{ grid-template-columns: repeat(2,1fr); }
+}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="title-block">
+      <div class="eyebrow" data-i18n="eyebrow">Day by Day</div>
+      <h1 class="display" data-i18n="title">One Day at a Time</h1>
+      <div class="sub" data-i18n="subtitle">A little card for every smoke-free day.</div>
+      <div class="dedication" data-i18n="dedication">For Shlomzy — every day counts. Love, S.</div>
+    </div>
+    <div class="lang-toggle">
+      <button id="btn-en" class="active">EN</button>
+      <button id="btn-he">עב</button>
+    </div>
+  </div>
+
+  <div class="streak-banner">
+    <div class="flame">🔥</div>
+    <div class="text">
+      <strong id="streakCount">0</strong>
+      <span data-i18n="streakLabel">day streak — keep going</span>
+    </div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" data-tab="calendar" data-i18n="tabCalendar">Calendar</button>
+    <button class="tab" data-tab="journal" data-i18n="tabJournal">Journal & Stats</button>
+    <button class="tab" data-tab="surprise" data-i18n="tabSurprise">Surprise</button>
+    <button class="tab" data-tab="admin" data-i18n="tabAdmin">Admin</button>
+  </div>
+
+  <!-- CALENDAR VIEW -->
+  <div class="view active" id="view-calendar">
+    <div class="cal-nav">
+      <div class="navbtns">
+        <button id="prevMonth">‹</button>
+      </div>
+      <div class="month-label" id="monthLabel"></div>
+      <div class="navbtns">
+        <button id="nextMonth">›</button>
+      </div>
+    </div>
+    <div class="weekdays" id="weekdaysRow"></div>
+    <div class="calendar-grid" id="calendarGrid"></div>
+  </div>
+
+  <!-- JOURNAL / STATS VIEW -->
+  <div class="view" id="view-journal">
+    <div class="section-title" data-i18n="statsTitle">This month at a glance</div>
+    <div class="stats-grid">
+      <div class="stat-box"><div class="num" id="statSmokeFree">0</div><div class="label" data-i18n="statSmokeFree">Smoke-free days</div></div>
+      <div class="stat-box"><div class="num" id="statBestStreak">0</div><div class="label" data-i18n="statBestStreak">Best streak (days)</div></div>
+      <div class="stat-box"><div class="num" id="statNotes">0</div><div class="label" data-i18n="statNotes">Reflections written</div></div>
+    </div>
+    <div class="section-title" data-i18n="journalTitle">Reflections & near-misses</div>
+    <div id="journalList"></div>
+  </div>
+
+  <!-- SURPRISE VIEW -->
+  <div class="view" id="view-surprise">
+    <div class="month-picker" id="monthPicker"></div>
+    <div id="surpriseContent"></div>
+  </div>
+
+  <!-- ADMIN VIEW -->
+  <div class="view" id="view-admin">
+    <div id="adminContent"></div>
+  </div>
+
+  <footer data-i18n="footer">Made with love. Your data stays on this device.</footer>
+</div>
+
+<!-- Day modal -->
+<div class="modal-overlay" id="dayModalOverlay">
+  <div class="modal-sheet">
+    <h2 id="modalTitle"></h2>
+    <div class="modal-date" id="modalDateLabel"></div>
+
+    <label class="field-label" data-i18n="levelPrompt">How did today go?</label>
+    <div class="level-options" id="levelOptions">
+      <button class="level-card" data-level="1">
+        <div class="level-stamp-preview swan-happy"></div>
+        <div class="level-text">
+          <div class="level-title" data-i18n="level1Title">Smoke-free — and it was easy</div>
+          <div class="level-sub" data-i18n="level1Sub">A calm, easy win. Get your swan stamp.</div>
+        </div>
+      </button>
+      <button class="level-card" data-level="2">
+        <div class="level-stamp-preview check-mark">✓</div>
+        <div class="level-text">
+          <div class="level-title" data-i18n="level2Title">Smoke-free — but it was hard</div>
+          <div class="level-sub" data-i18n="level2Sub">You fought for this one. Tell us about it.</div>
+        </div>
+      </button>
+      <button class="level-card" data-level="3">
+        <div class="level-stamp-preview swan-sad"></div>
+        <div class="level-text">
+          <div class="level-title" data-i18n="level3Title">I smoked today</div>
+          <div class="level-sub" data-i18n="level3Sub">It happens. Let's learn from it together.</div>
+        </div>
+      </button>
+    </div>
+
+    <!-- Level 2: near-miss reflection -->
+    <div class="conditional-fields" id="level2Fields" style="display:none;">
+      <label class="field-label" data-i18n="noteLabel">Thoughts & near-misses</label>
+      <div class="field-hint" data-i18n="noteHint">Write about moments you almost broke — these become your reflections in the Journal tab.</div>
+      <textarea id="noteText" placeholder=""></textarea>
+    </div>
+
+    <!-- Level 3: what broke + how to avoid -->
+    <div class="conditional-fields" id="level3Fields" style="display:none;">
+      <label class="field-label" data-i18n="brokeLabel">What led to it?</label>
+      <div class="field-hint" data-i18n="brokeHint">No judgment — understanding the trigger helps next time.</div>
+      <textarea id="brokeText" placeholder=""></textarea>
+      <label class="field-label" data-i18n="avoidLabel" style="margin-top:14px;">How could you avoid it next time?</label>
+      <textarea id="avoidText" placeholder=""></textarea>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-secondary btn-block" id="closeModal" data-i18n="close">Close</button>
+      <button class="btn btn-primary btn-block" id="saveNote" data-i18n="save" disabled>Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- Full-screen celebration overlay -->
+<div class="celebration-overlay" id="celebrationOverlay">
+  <div class="celebration-stamp" id="celebrationStamp"></div>
+  <div class="confetti-field" id="confettiField"></div>
+</div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+/* ============ I18N ============ */
+const translations = {
+  en: {
+    eyebrow: "Day by Day",
+    title: "One Day at a Time",
+    subtitle: "A little card for every smoke-free day.",
+    dedication: "For Shlomzy — every day counts. Love, S.",
+    streakLabel: "day streak — keep going",
+    tabCalendar: "Calendar",
+    tabJournal: "Journal & Stats",
+    tabSurprise: "Surprise",
+    tabAdmin: "Admin",
+    levelPrompt: "How did today go?",
+    level1Title: "Smoke-free — and it was easy",
+    level1Sub: "A calm, easy win. Get your swan stamp.",
+    level2Title: "Smoke-free — but it was hard",
+    level2Sub: "You fought for this one. Tell us about it.",
+    level3Title: "I smoked today",
+    level3Sub: "It happens. Let's learn from it together.",
+    noteLabel: "Thoughts & near-misses",
+    noteHint: "Write about the moment you almost broke — these become your reflections in the Journal tab.",
+    notePlaceholder: "How did today go? Anything you want to remember...",
+    brokeLabel: "What led to it?",
+    brokeHint: "No judgment — understanding the trigger helps next time.",
+    avoidLabel: "How could you avoid it next time?",
+    close: "Close",
+    save: "Save",
+    statsTitle: "This month at a glance",
+    statSmokeFree: "Smoke-free days",
+    statBestStreak: "Best streak (days)",
+    statNotes: "Reflections written",
+    journalTitle: "Reflections & near-misses",
+    journalEmpty: "No reflections yet. Add a note on any day from the Calendar tab.",
+    journalEmptyEmoji: "📓",
+    journalTagHard: "Hard-won day",
+    journalTagSmoked: "Smoked",
+    footer: "Made with love. Your data stays on this device.",
+    weekdaysShort: ["Sun","Mon","Tue","Wed","Thu","Fri","Sat"],
+    monthNames: ["January","February","March","April","May","June","July","August","September","October","November","December"],
+    saved: "Saved ✓",
+    surpriseLocked: "Surprise locked",
+    surpriseLockedDesc: "Finish the month to find out what's waiting for you. Stamp every day you stay smoke-free!",
+    surpriseFailTitle: "Almost there",
+    surpriseFailMsg: "You're incredible, you've done so well! I can't wait for you to finish one full month without smoking, to get your surprise! Better luck next month. Love, S.",
+    surpriseReadyTitle: "Your surprise is ready!",
+    surpriseReadyDesc: "Scratch the card below to reveal it.",
+    scratchHint: "Scratch to reveal",
+    weekProgress: "Full weeks completed",
+    monthIncomplete: "This month isn't finished yet — keep stamping!",
+    adminTitle: "Surprise manager",
+    adminDesc: "Set up the surprise for each month. It unlocks for your friend only after they stamp every day of every full week in the calendar.",
+    adminPasswordLabel: "Enter admin code",
+    adminUnlock: "Unlock",
+    adminWrongPass: "Incorrect code",
+    adminMonthTitleLabel: "Surprise title",
+    adminMonthTitlePlaceholder: "e.g. Ramen Making Workshop",
+    adminMessageLabel: "Message revealed after scratching",
+    adminMessagePlaceholder: "Write the surprise message here...",
+    adminIconLabel: "Icon / image",
+    adminUploadLabel: "Upload photo",
+    adminSaveBtn: "Save surprise",
+    adminSaved: "Surprise saved ✓",
+    adminSyncing: "Syncing...",
+    adminSyncFailed: "Saved locally, but cloud sync failed. Check your connection.",
+    cloudOn: "☁️ Shared with your friend's device",
+    cloudOff: "📱 Saved on this device only — set up cloud sync (see README) so your friend sees it too.",
+    adminLogout: "Lock admin panel",
+    requirementNote: "Reward unlocks when every day of every complete week (Sun–Sat) in this month is stamped.",
+    statusLocked: "Locked",
+    statusReady: "Ready to scratch",
+    statusRevealed: "Revealed",
+    statusFailed: "Not unlocked",
+    monthShort: ["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"],
+  },
+  he: {
+    eyebrow: "יום אחרי יום",
+    title: "יום אחד בכל פעם",
+    subtitle: "כרטיסיית ניקוב קטנה לכל יום בלי סיגריה.",
+    dedication: "בשבילך, שלומזי — כל יום סופר. באהבה, ס.",
+    streakLabel: "ימים ברצף — כל הכבוד, תמשיכו",
+    tabCalendar: "לוח שנה",
+    tabJournal: "יומן וסטטיסטיקות",
+    tabSurprise: "הפתעה",
+    tabAdmin: "ניהול",
+    levelPrompt: "איך עבר היום?",
+    level1Title: "יום נקי — והיה קל",
+    level1Sub: "ניצחון רגוע וקל. קבלו את חותמת הברבור.",
+    level2Title: "יום נקי — אבל היה קשה",
+    level2Sub: "נלחמתם על היום הזה. שתפו אותנו.",
+    level3Title: "עישנתי היום",
+    level3Sub: "זה קורה. בואו נלמד מזה ביחד.",
+    noteLabel: "מחשבות ורגעים שכמעט נשברו",
+    noteHint: "כתבו על הרגע שבו כמעט נכשלתם — הוא יופיע כתובנה בלשונית היומן.",
+    notePlaceholder: "איך עבר היום? משהו שתרצו לזכור...",
+    brokeLabel: "מה הוביל לזה?",
+    brokeHint: "בלי שיפוטיות — להבין את הטריגר עוזר בפעם הבאה.",
+    avoidLabel: "איך אפשר להימנע מזה בפעם הבאה?",
+    close: "סגירה",
+    save: "שמירה",
+    statsTitle: "החודש במבט מהיר",
+    statSmokeFree: "ימים נקיים מסיגריות",
+    statBestStreak: "הרצף הטוב ביותר (ימים)",
+    statNotes: "תובנות שנכתבו",
+    journalTitle: "תובנות ורגעים שכמעט נשברו",
+    journalEmpty: "אין עדיין תובנות. הוסיפו הערה לכל יום בלשונית לוח השנה.",
+    journalEmptyEmoji: "📓",
+    journalTagHard: "יום עם מאבק",
+    journalTagSmoked: "עישון",
+    footer: "נוצר באהבה. המידע שלך נשאר במכשיר הזה.",
+    weekdaysShort: ["א","ב","ג","ד","ה","ו","ש"],
+    monthNames: ["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"],
+    saved: "נשמר ✓",
+    surpriseLocked: "ההפתעה נעולה",
+    surpriseLockedDesc: "סיימו את החודש כדי לגלות מה מחכה לכם. נקבו חותמת בכל יום שאתם נשארים נקיים!",
+    surpriseFailTitle: "עוד קצת",
+    surpriseFailMsg: "את/ה מדהים/ה, עשית עבודה מצוינת! אני לא יכולה לחכות שתסיימי חודש שלם בלי סיגריות, כדי שתקבלי את ההפתעה שלך! בהצלחה בחודש הבא. באהבה, ס.",
+    surpriseReadyTitle: "ההפתעה שלך מוכנה!",
+    surpriseReadyDesc: "גרדו את הכרטיס למטה כדי לחשוף אותה.",
+    scratchHint: "גרדו לחשיפה",
+    weekProgress: "שבועות מלאים שהושלמו",
+    monthIncomplete: "החודש עדיין לא הסתיים — תמשיכו לנקב!",
+    adminTitle: "ניהול הפתעות",
+    adminDesc: "הגדירו את ההפתעה לכל חודש. היא תיפתח לחבר/ה שלכם רק אחרי שהם ניקבו חותמת בכל יום של כל שבוע מלא בלוח השנה.",
+    adminPasswordLabel: "הזינו קוד ניהול",
+    adminUnlock: "פתיחה",
+    adminWrongPass: "קוד שגוי",
+    adminMonthTitleLabel: "כותרת ההפתעה",
+    adminMonthTitlePlaceholder: "לדוגמה: סדנת הכנת ראמן",
+    adminMessageLabel: "הודעה שתיחשף לאחר הגרידה",
+    adminMessagePlaceholder: "כתבו כאן את הודעת ההפתעה...",
+    adminIconLabel: "אייקון / תמונה",
+    adminUploadLabel: "העלאת תמונה",
+    adminSaveBtn: "שמירת ההפתעה",
+    adminSaved: "ההפתעה נשמרה ✓",
+    adminSyncing: "מסנכרן...",
+    adminSyncFailed: "נשמר במכשיר זה, אך הסנכרון לעננה נכשל. בדקו את החיבור לאינטרנט.",
+    cloudOn: "☁️ משותף עם המכשיר של החבר/ה שלך",
+    cloudOff: "📱 נשמר במכשיר זה בלבד — הגדירו סנכרון עננה (ראו README) כדי שגם החבר/ה שלך יראו את זה.",
+    adminLogout: "נעילת פאנל הניהול",
+    requirementNote: "הפרס נפתח כאשר כל יום בכל שבוע מלא (א'–ש') בחודש זה מנוקב.",
+    statusLocked: "נעול",
+    statusReady: "מוכן לגרידה",
+    statusRevealed: "נחשף",
+    statusFailed: "לא נפתח",
+    monthShort: ["ינו","פבר","מרץ","אפר","מאי","יונ","יול","אוג","ספט","אוק","נוב","דצמ"],
+  }
+};
+
+let lang = localStorage.getItem('osad_lang') || 'en';
+let data = JSON.parse(localStorage.getItem('osad_data') || '{}');
+// data structure: { stamps: {"YYYY-MM-DD": {level: 1|2|3}}, notes: {"YYYY-MM-DD": {text?, broke?, avoid?}}, surprises: {"YYYY-MM": {title, message, icon, imageData, revealed: bool}} }
+data.stamps = data.stamps || {};
+data.notes = data.notes || {};
+data.surprises = data.surprises || {};
+
+// Migrate from the old format (stamps: true/false, notes: plain strings)
+(function migrateOldFormat(){
+  let migrated = false;
+  Object.keys(data.stamps).forEach(key=>{
+    if(data.stamps[key] === true){
+      data.stamps[key] = { level: 1 };
+      migrated = true;
+    }
+  });
+  Object.keys(data.notes).forEach(key=>{
+    if(typeof data.notes[key] === 'string'){
+      const text = data.notes[key];
+      const level = (data.stamps[key] && data.stamps[key].level) || null;
+      if(level === 3){
+        data.notes[key] = { broke: text, avoid: '' };
+      } else {
+        data.notes[key] = { text: text };
+        if(level && data.stamps[key].level !== 2){
+          // old notes were allowed on any day; if it wasn't a "hard" day,
+          // bump it to level 2 so the reflection still shows in the journal
+          data.stamps[key] = { level: 2 };
+        } else if(!level){
+          data.stamps[key] = { level: 2 };
+        }
+      }
+      migrated = true;
+    }
+  });
+  if(migrated) saveData();
+})();
+
+function saveData(){ localStorage.setItem('osad_data', JSON.stringify(data)); }
+
+/* ============ CLOUD SYNC (shared "surprises" only) ============
+   Uses jsonbin.io's free tier. Set CLOUD_BIN_ID and CLOUD_API_KEY below
+   (see README for how to get these — takes 2 minutes, totally free).
+   Stamps/notes/journal stay local-only and are never sent anywhere. */
+const CLOUD_BIN_ID = "PASTE_YOUR_BIN_ID_HERE";
+const CLOUD_API_KEY = "PASTE_YOUR_API_KEY_HERE";
+const CLOUD_ENABLED = CLOUD_BIN_ID && CLOUD_API_KEY
+  && !CLOUD_BIN_ID.startsWith("PASTE_") && !CLOUD_API_KEY.startsWith("PASTE_");
+const CLOUD_URL = `https://api.jsonbin.io/v3/b/${CLOUD_BIN_ID}`;
+
+let cloudSyncInProgress = false;
+let cloudLastError = false;
+
+// Fetch the shared surprises object from the cloud and merge it in.
+// Local "revealed" flags are preserved if the cloud copy is older/missing them won't be lost.
+async function cloudFetchSurprises(){
+  if(!CLOUD_ENABLED) return false;
+  try{
+    const res = await fetch(`${CLOUD_URL}/latest`, {
+      headers: { "X-Master-Key": CLOUD_API_KEY, "X-Bin-Meta": "false" }
+    });
+    if(!res.ok) throw new Error("fetch failed");
+    const cloudSurprises = await res.json();
+    let hadData = false;
+    if(cloudSurprises && typeof cloudSurprises === 'object'){
+      hadData = Object.keys(cloudSurprises).length > 0;
+      // merge: cloud is source of truth for title/message/icon/imageData,
+      // but keep local "revealed:true" even if cloud says false (friend already scratched it)
+      Object.keys(cloudSurprises).forEach(monthKey=>{
+        const cloudEntry = cloudSurprises[monthKey];
+        const localEntry = data.surprises[monthKey];
+        data.surprises[monthKey] = Object.assign({}, cloudEntry, {
+          revealed: (localEntry && localEntry.revealed) || (cloudEntry && cloudEntry.revealed) || false
+        });
+      });
+      saveData();
+    }
+    cloudLastError = false;
+    return hadData;
+  }catch(e){
+    cloudLastError = true;
+    console.warn("Cloud sync (fetch) failed, using local data.", e);
+    return false;
+  }
+}
+
+// Push the current surprises object to the cloud so other devices see it.
+async function cloudPushSurprises(){
+  if(!CLOUD_ENABLED) return true;
+  try{
+    const res = await fetch(`${CLOUD_URL}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Master-Key": CLOUD_API_KEY,
+        "X-Bin-Versioning": "false"
+      },
+      body: JSON.stringify(data.surprises)
+    });
+    if(!res.ok) throw new Error("push failed");
+    cloudLastError = false;
+    return true;
+  }catch(e){
+    cloudLastError = true;
+    console.warn("Cloud sync (push) failed.", e);
+    return false;
+  }
+}
+
+// Push just the "revealed" flag for one month (called when friend finishes scratching)
+async function cloudMarkRevealed(monthKey){
+  if(!CLOUD_ENABLED) return;
+  await cloudFetchSurprises(); // get latest first so we don't overwrite other months' edits
+  data.surprises[monthKey] = data.surprises[monthKey] || {};
+  data.surprises[monthKey].revealed = true;
+  saveData();
+  await cloudPushSurprises();
+}
+
+
+let viewDate = new Date(); // current month being viewed in calendar
+viewDate.setDate(1);
+
+const ADMIN_CODE = "ramen2026"; // simple gate, can be changed
+let adminUnlocked = false;
+
+const ICON_OPTIONS = ["🍜","🎁","🎫","🍰","🌸","🎮","☕","🍿","🎬","✨","🏆","💝"];
+
+/* ============ STAMP ICONS (swan illustrations) ============ */
+// Happy swan: graceful, upright swan — a calm, proud win.
+const SWAN_HAPPY_SVG = `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g transform="translate(-4.730,-5.439) scale(0.03638)"><g transform="translate(0,2000) scale(0.1,-0.1)"><path d="M15045 16755 c-60 -8 -144 -21 -185 -30 -41 -10 -91 -21 -110 -25 -221 -50 -521 -177 -705 -298 -197 -130 -461 -376 -625 -582 -165 -207 -305 -442 -404 -675 -146 -345 -232 -669 -293 -1105 -15 -100 -18 -197 -18 -490 0 -402 6 -466 70 -795 89 -453 307 -1079 518 -1485 226 -436 366 -682 600 -1055 645 -1029 1009 -1719 1182 -2239 92 -276 160 -576 185 -821 31 -295 -87 -646 -264 -790 -111 -89 -219 -120 -426 -119 -147 0 -160 2 -260 33 -129 41 -197 74 -325 162 -234 159 -491 415 -861 859 -293 352 -690 764 -964 1001 -424 367 -907 678 -1342 864 -516 221 -1024 357 -1593 427 -142 17 -783 17 -945 0 -505 -54 -583 -68 -1405 -247 -192 -42 -451 -96 -575 -120 -124 -25 -247 -49 -275 -54 -74 -15 -343 -58 -475 -75 -492 -66 -1007 -66 -1410 0 -432 69 -841 189 -1162 338 -87 41 -94 42 -102 21 -12 -33 83 -281 195 -508 55 -110 197 -334 302 -477 155 -210 595 -618 850 -789 44 -29 75 -57 71 -63 -14 -23 -367 26 -580 82 -133 34 -281 84 -397 134 -33 15 -38 15 -43 1 -9 -23 150 -278 287 -462 71 -94 275 -318 398 -436 319 -306 780 -604 1259 -813 218 -96 319 -134 740 -277 50 -17 92 -35 92 -39 0 -11 -70 -10 -231 2 -323 24 -662 83 -895 156 -62 18 -115 34 -118 34 -16 0 -2 -32 30 -72 368 -441 1248 -1053 1934 -1343 174 -73 261 -105 619 -227 450 -152 743 -219 1306 -298 276 -38 615 -60 935 -60 211 1 617 23 705 40 28 5 79 9 115 9 36 1 92 5 125 10 86 14 320 22 275 11 -19 -5 -78 -21 -130 -35 -153 -41 -337 -74 -620 -110 -675 -86 -1414 -73 -2070 36 -253 42 -692 146 -970 231 -567 173 -1288 534 -1790 896 -322 233 -706 571 -951 840 -79 86 -185 199 -234 250 l-91 94 -205 28 c-112 15 -241 35 -287 44 -108 21 -488 117 -617 156 -246 76 -691 225 -803 270 -137 55 -599 278 -693 336 -38 23 -64 33 -70 27 -10 -10 7 -129 36 -264 33 -152 141 -425 226 -575 126 -219 313 -459 508 -651 74 -73 132 -136 128 -139 -9 -9 -162 45 -332 117 -144 61 -381 184 -472 246 -57 39 -89 39 -78 1 43 -146 190 -451 330 -688 326 -549 701 -1000 1168 -1408 191 -166 478 -376 767 -561 80 -51 154 -102 165 -112 19 -19 19 -19 -5 -19 -28 0 -192 42 -350 90 -159 47 -193 45 -380 -28 -562 -218 -894 -272 -1552 -252 -108 3 -168 1 -169 -5 -5 -29 185 -98 371 -135 336 -68 684 -65 996 10 69 16 210 58 312 92 161 54 197 62 262 63 75 0 95 -4 315 -71 424 -128 768 -181 1250 -191 705 -15 1264 106 1834 398 95 49 178 89 183 89 5 0 48 -23 95 -50 324 -192 773 -343 1206 -405 332 -48 743 -48 1082 1 248 35 523 108 755 201 123 49 378 173 471 229 31 19 62 34 68 34 7 0 42 -18 79 -41 217 -132 651 -306 932 -373 184 -44 237 -53 440 -71 405 -36 740 -2 1095 112 235 75 397 154 653 320 45 29 91 53 101 53 10 0 57 -24 104 -54 297 -186 774 -361 1117 -410 544 -78 991 -32 1659 171 154 47 231 65 268 64 33 0 104 -18 200 -50 401 -133 600 -171 892 -171 312 1 591 54 780 148 103 51 93 53 -256 46 -344 -7 -545 5 -756 46 -138 27 -396 107 -592 185 -264 105 -262 105 -535 26 -96 -28 -197 -54 -223 -57 l-48 -7 209 209 c290 289 457 510 613 809 113 216 232 537 303 817 30 119 42 179 76 378 19 107 40 387 40 520 -1 617 -186 1402 -501 2115 -158 361 -519 974 -834 1420 -50 72 -136 193 -191 270 -54 77 -247 338 -430 580 -417 555 -423 563 -712 984 -277 404 -364 548 -486 803 -246 516 -366 992 -366 1455 0 265 33 462 112 660 62 155 122 256 208 346 98 104 132 121 235 122 l80 0 250 -121 c410 -200 499 -219 976 -218 163 1 301 4 308 8 7 5 3 19 -14 45 -65 105 -72 177 -30 341 62 243 36 484 -73 695 -55 104 -108 153 -222 199 -125 51 -190 111 -190 175 0 73 48 132 129 160 89 30 166 -1 287 -113 116 -108 172 -132 343 -146 167 -15 279 4 448 75 76 31 100 27 148 -26 29 -33 35 -46 35 -85 0 -61 -23 -105 -81 -158 -78 -70 -231 -134 -387 -161 -94 -17 -117 -26 -134 -58 -6 -12 -15 -87 -19 -167 -9 -182 -35 -296 -97 -431 -65 -141 -63 -201 8 -262 58 -49 332 -211 499 -295 168 -84 477 -207 701 -280 85 -28 234 -76 330 -107 220 -72 282 -100 349 -159 70 -63 94 -60 137 12 37 61 49 134 35 209 -24 122 -77 182 -338 378 -336 254 -466 375 -612 575 -83 112 -147 230 -138 253 3 9 23 27 44 41 109 71 138 126 138 271 0 95 -2 103 -35 165 -45 83 -196 235 -328 329 -106 75 -156 125 -309 306 -142 170 -265 284 -413 382 -410 273 -976 407 -1475 348z m2107 -1824 c9 -9 51 -81 94 -161 42 -80 103 -188 135 -241 87 -143 80 -150 -58 -59 -179 118 -314 319 -287 427 15 60 72 77 116 34z"/></g></g></svg>`;
+
+// Sad swan: head lowered toward the water — a rough day, no judgment.
+const SWAN_SAD_SVG = `<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" fill="currentColor"><g transform="translate(-3.976,-1.917) scale(0.03550)"><g transform="translate(0,2000) scale(0.1,-0.1)"><path d="M4675 16839 c-200 -14 -423 -53 -655 -115 -94 -26 -463 -157 -550 -197 -345 -157 -522 -259 -825 -476 -416 -298 -797 -701 -1059 -1121 -300 -479 -466 -1003 -466 -1467 0 -136 19 -314 45 -412 42 -165 140 -404 180 -445 39 -38 130 -7 273 94 160 112 281 250 346 392 33 71 39 95 72 268 34 182 112 275 208 249 98 -28 121 -140 65 -310 -58 -172 -49 -291 33 -454 76 -153 186 -278 349 -398 112 -82 164 -138 188 -202 12 -31 21 -60 21 -65 0 -6 6 -10 13 -10 7 0 20 23 30 50 13 37 41 75 106 143 321 337 536 760 610 1202 39 228 42 271 41 553 0 156 5 313 10 350 21 129 119 283 270 425 174 164 419 290 661 343 119 25 325 30 453 10 267 -43 499 -163 671 -348 139 -151 202 -254 260 -432 117 -358 117 -684 1 -1143 -57 -225 -152 -467 -289 -738 -186 -368 -348 -623 -832 -1310 -375 -532 -692 -1028 -908 -1420 -198 -361 -307 -689 -373 -1125 -13 -88 -17 -181 -18 -400 0 -245 3 -306 23 -435 66 -444 213 -862 406 -1157 63 -96 140 -190 263 -322 35 -37 60 -72 55 -76 -4 -4 -71 -13 -148 -20 -284 -24 -502 -82 -493 -130 5 -23 157 -94 266 -123 161 -43 461 -100 672 -126 41 -6 145 -19 230 -30 191 -25 473 -56 702 -76 95 -8 220 -19 278 -24 178 -16 475 -40 695 -56 325 -23 342 -24 473 -35 527 -42 1268 -73 2387 -100 537 -13 2166 -13 2700 0 582 14 1498 49 1835 70 149 10 267 18 720 50 329 23 549 41 805 65 149 14 299 28 335 31 127 11 526 55 595 64 39 6 135 20 215 31 80 11 173 25 207 30 100 14 462 88 543 110 177 48 283 98 278 129 -2 8 -25 25 -51 38 -116 56 -363 93 -624 94 -126 1 -161 4 -155 13 10 18 90 79 222 170 680 467 1218 1042 1658 1770 217 360 449 885 392 885 -6 0 -43 -22 -83 -48 -233 -156 -700 -372 -733 -339 -4 3 30 45 74 92 165 174 390 463 494 635 132 219 236 506 293 805 26 141 18 161 -48 111 -67 -50 -387 -215 -668 -344 -102 -46 -389 -155 -544 -205 -386 -125 -759 -218 -1120 -277 -104 -17 -204 -35 -221 -41 -22 -7 -57 -41 -115 -112 -46 -56 -106 -129 -134 -161 -27 -32 -70 -82 -94 -110 -58 -67 -210 -224 -357 -366 -585 -568 -1303 -1032 -2069 -1338 -672 -268 -1307 -390 -2130 -408 -176 -4 -347 -2 -460 5 -617 40 -647 44 -865 97 -357 88 -357 97 0 70 271 -21 1046 -31 1250 -17 216 16 508 54 695 92 161 32 531 125 760 191 378 107 914 347 1320 589 309 185 719 492 965 723 81 76 364 386 380 416 16 29 -1 31 -80 9 -140 -38 -306 -80 -380 -95 -97 -19 -390 -54 -455 -53 -48 0 -49 0 -25 13 14 8 97 40 185 71 440 156 713 290 1085 533 183 119 268 184 450 341 482 416 823 851 1080 1376 79 163 150 333 150 360 0 26 -25 27 -127 5 -550 -119 -1235 -96 -1993 70 -159 34 -273 64 -570 146 -108 30 -518 153 -630 190 -201 64 -604 173 -792 214 -313 67 -502 98 -822 135 -601 69 -1265 34 -1861 -98 -571 -127 -1042 -308 -1530 -589 -299 -172 -651 -422 -926 -659 -256 -219 -755 -746 -1065 -1123 -160 -194 -317 -357 -418 -435 -80 -61 -224 -100 -295 -81 -56 15 -105 75 -127 156 -29 109 -12 245 66 514 42 144 184 505 353 895 177 409 336 797 392 955 151 429 220 664 270 916 118 591 130 1056 39 1519 -105 537 -253 873 -562 1275 -77 100 -288 312 -422 424 -329 275 -836 508 -1288 591 -196 36 -486 50 -707 34z"/><path d="M1994 12602 c-22 -15 -67 -48 -100 -73 -120 -94 -259 -168 -354 -189 -94 -20 -90 -18 -90 -61 0 -34 8 -48 59 -103 112 -121 172 -281 205 -551 36 -290 45 -563 26 -825 -37 -539 -36 -583 18 -703 38 -84 81 -130 154 -167 96 -48 186 -39 218 20 6 11 26 95 45 188 36 179 41 194 133 404 33 75 88 212 122 305 34 92 68 184 75 204 91 241 196 627 225 827 33 225 -8 296 -250 436 -112 65 -217 144 -327 248 -81 77 -98 81 -159 40z"/><path d="M17931 6636 c-18 -21 4 -33 271 -150 316 -138 471 -232 513 -310 19 -35 19 -36 -1 -63 -24 -33 -224 -136 -363 -187 -53 -19 -179 -60 -281 -91 -607 -185 -542 -166 -910 -264 -146 -38 -303 -82 -349 -98 -77 -26 -115 -52 -99 -68 12 -12 357 -5 484 10 236 27 282 34 529 79 443 80 859 216 1061 348 256 167 283 389 65 537 -168 114 -481 220 -754 256 -145 18 -152 19 -166 1z"/><path d="M3110 6610 c-324 -54 -594 -164 -719 -291 -81 -83 -104 -159 -76 -255 34 -117 193 -235 468 -347 402 -164 1252 -324 1671 -315 90 2 141 7 143 14 4 11 -75 50 -162 79 -27 9 -158 46 -290 81 -132 36 -355 100 -495 144 -140 43 -322 99 -405 125 -346 106 -583 202 -642 257 -33 30 -29 68 10 108 96 99 236 172 621 326 121 48 160 70 151 84 -10 15 -159 10 -275 -10z"/><path d="M15005 5264 c-153 -4 -711 -30 -1055 -49 -277 -16 -423 -25 -780 -50 -118 -8 -407 -26 -642 -40 -901 -53 -1259 -90 -1387 -141 -62 -24 -53 -52 24 -73 68 -19 282 -49 450 -63 207 -17 1114 -17 1430 1 746 40 1343 104 2050 217 281 45 532 111 543 142 12 37 -298 65 -633 56z"/><path d="M6125 5235 c-110 -19 -125 -30 -82 -60 25 -18 177 -66 282 -89 78 -17 565 -98 690 -115 261 -35 685 -76 1005 -96 271 -17 894 -20 1086 -5 142 12 367 43 427 60 67 20 59 61 -17 81 -236 64 -593 102 -1726 184 -722 53 -1490 71 -1665 40z"/><path d="M7430 4393 c-67 -10 -74 -13 -59 -28 16 -17 197 -65 354 -94 199 -38 640 -94 940 -120 61 -6 211 -19 335 -30 124 -11 295 -25 380 -31 85 -6 216 -15 290 -21 366 -27 1322 -37 1815 -19 382 14 639 33 1350 100 338 32 969 120 1190 165 158 33 201 57 128 72 -52 11 -815 7 -1223 -6 -1234 -40 -3394 -36 -4760 9 -286 10 -689 11 -740 3z"/></g></g></svg>`;
+
+function stampIconSvg(level){
+  if(level === 1) return SWAN_HAPPY_SVG;
+  if(level === 3) return SWAN_SAD_SVG;
+  return null; // level 2 uses plain checkmark text
+}
+
+/* ============ HELPERS ============ */
+function pad(n){ return n.toString().padStart(2,'0'); }
+function dateKey(y,m,d){ return `${y}-${pad(m+1)}-${pad(d)}`; }
+function todayKey(){ const t=new Date(); return dateKey(t.getFullYear(),t.getMonth(),t.getDate()); }
+function t(key){ return translations[lang][key] || key; }
+
+function applyLang(){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === 'he' ? 'rtl' : 'ltr';
+  document.querySelectorAll('[data-i18n]').forEach(el=>{
+    const k = el.getAttribute('data-i18n');
+    el.textContent = t(k);
+  });
+  document.getElementById('noteText').placeholder = t('notePlaceholder');
+  document.getElementById('btn-en').classList.toggle('active', lang==='en');
+  document.getElementById('btn-he').classList.toggle('active', lang==='he');
+  populateLevelPreviews();
+  renderWeekdays();
+  renderCalendar();
+  renderJournal();
+  renderSurprise();
+  renderAdmin();
+}
+
+function populateLevelPreviews(){
+  const happy = document.querySelector('.level-stamp-preview.swan-happy');
+  const sad = document.querySelector('.level-stamp-preview.swan-sad');
+  if(happy && !happy.innerHTML.trim()) happy.innerHTML = SWAN_HAPPY_SVG;
+  if(sad && !sad.innerHTML.trim()) sad.innerHTML = SWAN_SAD_SVG;
+}
+
+document.getElementById('btn-en').onclick = ()=>{ lang='en'; localStorage.setItem('osad_lang',lang); applyLang(); };
+document.getElementById('btn-he').onclick = ()=>{ lang='he'; localStorage.setItem('osad_lang',lang); applyLang(); };
+
+/* ============ TABS ============ */
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+    document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('view-'+tab.dataset.tab).classList.add('active');
+
+    if(tab.dataset.tab === 'surprise' && CLOUD_ENABLED){
+      cloudFetchSurprises().then(()=> renderSurprise());
+    }
+  });
+});
+
+/* ============ CALENDAR ============ */
+function renderWeekdays(){
+  const row = document.getElementById('weekdaysRow');
+  row.innerHTML = '';
+  translations[lang].weekdaysShort.forEach(d=>{
+    const el = document.createElement('div');
+    el.textContent = d;
+    row.appendChild(el);
+  });
+}
+
+function renderCalendar(){
+  const y = viewDate.getFullYear();
+  const m = viewDate.getMonth();
+  document.getElementById('monthLabel').textContent = `${translations[lang].monthNames[m]} ${y}`;
+
+  // disable next month if it's beyond current real month
+  const now = new Date();
+  const isCurrentOrPast = (y < now.getFullYear()) || (y===now.getFullYear() && m <= now.getMonth());
+  document.getElementById('nextMonth').disabled = !isCurrentOrPast;
+
+  const grid = document.getElementById('calendarGrid');
+  grid.innerHTML = '';
+
+  const firstDay = new Date(y, m, 1).getDay(); // 0 = Sunday
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+
+  for(let i=0;i<firstDay;i++){
+    const cell = document.createElement('div');
+    cell.className = 'day-cell empty';
+    grid.appendChild(cell);
+  }
+
+  const todayK = todayKey();
+  for(let d=1; d<=daysInMonth; d++){
+    const key = dateKey(y,m,d);
+    const cell = document.createElement('div');
+    cell.className = 'day-cell';
+    cell.dataset.key = key;
+
+    const dateObj = new Date(y,m,d);
+    const isFuture = dateObj > new Date(now.getFullYear(),now.getMonth(),now.getDate());
+
+    if(key === todayK) cell.classList.add('today');
+    if(isFuture) cell.classList.add('future');
+
+    const entry = data.stamps[key];
+    const level = entry ? entry.level : null;
+    if(level){
+      cell.classList.add('stamped', `level-${level}`);
+    }
+
+    const num = document.createElement('div');
+    num.className = 'num';
+    num.textContent = d;
+    cell.appendChild(num);
+
+    const stamp = document.createElement('div');
+    stamp.className = 'stamp';
+    const svg = stampIconSvg(level);
+    if(svg){
+      stamp.innerHTML = svg;
+    } else if(level === 2){
+      stamp.textContent = '✓';
+    }
+    cell.appendChild(stamp);
+
+    const noteEntry = data.notes[key];
+    const hasNote = noteEntry && ((noteEntry.text && noteEntry.text.trim()) || (noteEntry.broke && noteEntry.broke.trim()) || (noteEntry.avoid && noteEntry.avoid.trim()));
+    if(hasNote){
+      const dot = document.createElement('div');
+      dot.className = 'has-note-dot';
+      cell.appendChild(dot);
+    }
+
+    if(!isFuture){
+      cell.addEventListener('click', ()=> openDayModal(key, d, y, m));
+    }
+
+    grid.appendChild(cell);
+  }
+  renderStreak();
+}
+
+document.getElementById('prevMonth').onclick = ()=>{
+  viewDate.setMonth(viewDate.getMonth()-1);
+  renderCalendar();
+  renderJournal();
+};
+document.getElementById('nextMonth').onclick = ()=>{
+  if(document.getElementById('nextMonth').disabled) return;
+  viewDate.setMonth(viewDate.getMonth()+1);
+  renderCalendar();
+  renderJournal();
+};
+
+/* ============ STREAK ============ */
+function isSmokeFree(key){
+  const e = data.stamps[key];
+  return !!e && (e.level === 1 || e.level === 2);
+}
+function renderStreak(){
+  // count backwards from today
+  let count = 0;
+  let cursor = new Date();
+  while(true){
+    const key = dateKey(cursor.getFullYear(), cursor.getMonth(), cursor.getDate());
+    if(isSmokeFree(key)){
+      count++;
+      cursor.setDate(cursor.getDate()-1);
+    } else {
+      break;
+    }
+  }
+  document.getElementById('streakCount').textContent = count;
+}
+
+/* ============ DAY MODAL ============ */
+let activeDayKey = null;
+let selectedLevel = null;
+
+function openDayModal(key, d, y, m){
+  activeDayKey = key;
+  selectedLevel = (data.stamps[key] && data.stamps[key].level) || null;
+  const overlay = document.getElementById('dayModalOverlay');
+  const dateObj = new Date(y,m,d);
+  document.getElementById('modalTitle').textContent = `${translations[lang].monthNames[m]} ${d}`;
+  document.getElementById('modalDateLabel').textContent = dateObj.toLocaleDateString(lang==='he'?'he-IL':'en-US', {weekday:'long', year:'numeric', month:'long', day:'numeric'});
+
+  const noteEntry = data.notes[key] || {};
+  document.getElementById('noteText').value = noteEntry.text || '';
+  document.getElementById('brokeText').value = noteEntry.broke || '';
+  document.getElementById('avoidText').value = noteEntry.avoid || '';
+
+  updateLevelUI();
+  overlay.classList.add('active');
+}
+
+function updateLevelUI(){
+  document.querySelectorAll('.level-card').forEach(card=>{
+    const lvl = parseInt(card.dataset.level);
+    card.classList.toggle('selected', selectedLevel === lvl);
+  });
+  document.getElementById('level2Fields').style.display = (selectedLevel === 2) ? 'block' : 'none';
+  document.getElementById('level3Fields').style.display = (selectedLevel === 3) ? 'block' : 'none';
+  document.getElementById('saveNote').disabled = !selectedLevel;
+}
+
+document.querySelectorAll('.level-card').forEach(card=>{
+  card.addEventListener('click', ()=>{
+    const lvl = parseInt(card.dataset.level);
+    selectedLevel = (selectedLevel === lvl) ? null : lvl; // tap again to deselect
+    updateLevelUI();
+  });
+});
+
+document.getElementById('closeModal').onclick = ()=>{
+  document.getElementById('dayModalOverlay').classList.remove('active');
+};
+document.getElementById('dayModalOverlay').addEventListener('click', (e)=>{
+  if(e.target.id === 'dayModalOverlay') e.currentTarget.classList.remove('active');
+});
+
+document.getElementById('saveNote').onclick = ()=>{
+  if(!selectedLevel) return;
+
+  const prevLevel = (data.stamps[activeDayKey] && data.stamps[activeDayKey].level) || null;
+  data.stamps[activeDayKey] = { level: selectedLevel };
+
+  // save notes depending on level
+  const noteText = document.getElementById('noteText').value.trim();
+  const brokeText = document.getElementById('brokeText').value.trim();
+  const avoidText = document.getElementById('avoidText').value.trim();
+
+  if(selectedLevel === 2 && noteText){
+    data.notes[activeDayKey] = { text: noteText };
+  } else if(selectedLevel === 3 && (brokeText || avoidText)){
+    data.notes[activeDayKey] = { broke: brokeText, avoid: avoidText };
+  } else {
+    delete data.notes[activeDayKey];
+  }
+
+  saveData();
+  renderCalendar();
+  renderJournal();
+  showToast(t('saved'));
+  document.getElementById('dayModalOverlay').classList.remove('active');
+
+  // celebration for smoke-free stamps
+  if(selectedLevel === 1 || selectedLevel === 2){
+    if(prevLevel !== selectedLevel){
+      playCelebration(selectedLevel);
+    }
+  }
+
+  // check if this completes the month -> auto-show scratch card
+  maybeAutoShowSurprise(activeDayKey);
+};
+
+/* ============ TOAST ============ */
+let toastTimer;
+function showToast(msg){
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(()=>el.classList.remove('show'), 1800);
+}
+
+/* ============ CELEBRATION EFFECT ============ */
+const CONFETTI_COLORS = ['#9FBE8C','#E8825F','#D9BD86','#F2ECE2','#7FB0C9'];
+function playCelebration(level){
+  const overlay = document.getElementById('celebrationOverlay');
+  const stampEl = document.getElementById('celebrationStamp');
+  const confettiField = document.getElementById('confettiField');
+
+  // build the stamp graphic
+  stampEl.innerHTML = '';
+  stampEl.className = 'celebration-stamp';
+  const svg = stampIconSvg(level);
+  if(svg){
+    stampEl.innerHTML = svg;
+  } else {
+    stampEl.classList.add('check-mark');
+    stampEl.textContent = '✓';
+  }
+
+  // build confetti
+  confettiField.innerHTML = '';
+  const pieceCount = 36;
+  for(let i=0;i<pieceCount;i++){
+    const piece = document.createElement('div');
+    piece.className = 'confetti-piece';
+    const color = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+    piece.style.background = color;
+    piece.style.left = `${Math.random()*100}%`;
+    piece.style.animationDelay = `${Math.random()*0.3}s`;
+    piece.style.transform = `rotate(${Math.random()*360}deg)`;
+    confettiField.appendChild(piece);
+  }
+
+  overlay.classList.remove('play');
+  overlay.classList.add('active');
+  requestAnimationFrame(()=>{
+    requestAnimationFrame(()=> overlay.classList.add('play'));
+  });
+
+  setTimeout(()=>{
+    overlay.classList.remove('active','play');
+  }, 1700);
+}
+
+/* ============ JOURNAL / STATS ============ */
+function renderJournal(){
+  const y = viewDate.getFullYear();
+  const m = viewDate.getMonth();
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+
+  let smokeFree = 0;
+  let notesCount = 0;
+  let bestStreak = 0;
+  let currentRun = 0;
+  const entries = [];
+
+  for(let d=1; d<=daysInMonth; d++){
+    const key = dateKey(y,m,d);
+    if(isSmokeFree(key)){
+      smokeFree++;
+      currentRun++;
+      bestStreak = Math.max(bestStreak, currentRun);
+    } else {
+      currentRun = 0;
+    }
+    const note = data.notes[key];
+    if(note){
+      const level = (data.stamps[key] && data.stamps[key].level) || null;
+      if(level === 2 && note.text && note.text.trim()){
+        notesCount++;
+        entries.push({key, d, level, text: note.text});
+      } else if(level === 3 && ((note.broke && note.broke.trim()) || (note.avoid && note.avoid.trim()))){
+        notesCount++;
+        entries.push({key, d, level, broke: note.broke, avoid: note.avoid});
+      }
+    }
+  }
+
+  document.getElementById('statSmokeFree').textContent = smokeFree;
+  document.getElementById('statBestStreak').textContent = bestStreak;
+  document.getElementById('statNotes').textContent = notesCount;
+
+  const list = document.getElementById('journalList');
+  list.innerHTML = '';
+  if(entries.length === 0){
+    list.innerHTML = `<div class="empty-state"><span class="emoji">${t('journalEmptyEmoji')}</span>${t('journalEmpty')}</div>`;
+    return;
+  }
+  entries.reverse().forEach(entry=>{
+    const dateObj = new Date(y,m,entry.d);
+    const div = document.createElement('div');
+    div.className = 'journal-entry';
+    if(entry.level === 3) div.classList.add('journal-entry-smoked');
+    const dateStr = dateObj.toLocaleDateString(lang==='he'?'he-IL':'en-US', {weekday:'short', month:'short', day:'numeric'});
+
+    if(entry.level === 2){
+      div.innerHTML = `<div class="je-date">${dateStr} · ${t('journalTagHard')}</div><div class="je-text"></div>`;
+      div.querySelector('.je-text').textContent = entry.text;
+    } else {
+      div.innerHTML = `
+        <div class="je-date">${dateStr} · ${t('journalTagSmoked')}</div>
+        ${entry.broke ? `<div class="je-label">${t('brokeLabel')}</div><div class="je-text je-broke"></div>` : ''}
+        ${entry.avoid ? `<div class="je-label">${t('avoidLabel')}</div><div class="je-text je-avoid"></div>` : ''}
+      `;
+      if(entry.broke) div.querySelector('.je-broke').textContent = entry.broke;
+      if(entry.avoid) div.querySelector('.je-avoid').textContent = entry.avoid;
+    }
+    list.appendChild(div);
+  });
+}
+
+/* ============ SURPRISE / MONTH EVALUATION ============ */
+// Returns: {status: 'incomplete'|'failed'|'ready'|'revealed', fullWeeksTotal, fullWeeksCompleted}
+// A month is "ready" as soon as every full Sun-Sat week within it is fully smoke-free —
+// this can happen mid-month, or be achieved later by editing past days.
+// "failed" only applies once the month has fully ended without success.
+function evaluateMonth(y, m){
+  const daysInMonth = new Date(y, m+1, 0).getDate();
+  const now = new Date();
+  const monthEndDate = new Date(y, m, daysInMonth);
+  const isPastMonth = monthEndDate < new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  // build weeks: Sun-Sat, only count FULL weeks that are entirely within this month
+  let fullWeeksTotal = 0;
+  let fullWeeksCompleted = 0;
+
+  for(let d=1; d<=daysInMonth; d++){
+    const dow = new Date(y,m,d).getDay(); // 0=Sun
+    if(dow === 0){ // start of a week
+      if(d+6 <= daysInMonth){
+        fullWeeksTotal++;
+        let allSmokeFree = true;
+        for(let i=0;i<7;i++){
+          const key = dateKey(y,m,d+i);
+          if(!isSmokeFree(key)){ allSmokeFree = false; break; }
+        }
+        if(allSmokeFree) fullWeeksCompleted++;
+      }
+    }
+  }
+
+  const monthKey = `${y}-${pad(m+1)}`;
+  const surprise = data.surprises[monthKey];
+
+  if(fullWeeksTotal > 0 && fullWeeksCompleted === fullWeeksTotal){
+    if(surprise && surprise.revealed) return {status:'revealed', fullWeeksTotal, fullWeeksCompleted, monthKey, surprise};
+    return {status:'ready', fullWeeksTotal, fullWeeksCompleted, monthKey, surprise};
+  }
+  if(!isPastMonth){
+    return {status:'incomplete', fullWeeksTotal, fullWeeksCompleted, monthKey, surprise};
+  }
+  return {status:'failed', fullWeeksTotal, fullWeeksCompleted, monthKey, surprise};
+}
+
+let surpriseViewDate = new Date();
+surpriseViewDate.setDate(1);
+
+// After saving a stamp, check whether the month containing dayKey is now
+// "ready" (scratch card waiting) — if so, switch to the Surprise tab and
+// show that month, with a little extra delay so the celebration plays first.
+function maybeAutoShowSurprise(dayKey){
+  const [yStr, mStr] = dayKey.split('-');
+  const y = parseInt(yStr);
+  const m = parseInt(mStr) - 1;
+  const evalResult = evaluateMonth(y, m);
+  if(evalResult.status === 'ready'){
+    const delay = 1500; // let the celebration animation finish first
+    setTimeout(()=>{
+      surpriseViewDate = new Date(y, m, 1);
+      document.querySelectorAll('.tab').forEach(x=>x.classList.remove('active'));
+      document.querySelectorAll('.view').forEach(x=>x.classList.remove('active'));
+      document.querySelector('.tab[data-tab="surprise"]').classList.add('active');
+      document.getElementById('view-surprise').classList.add('active');
+      if(CLOUD_ENABLED){
+        cloudFetchSurprises().then(()=> renderSurprise());
+      } else {
+        renderSurprise();
+      }
+    }, delay);
+  }
+}
+
+function renderSurprise(){
+  // build month picker: last 12 months including current
+  const picker = document.getElementById('monthPicker');
+  picker.innerHTML = '';
+  const now = new Date();
+  const months = [];
+  for(let i=0;i<12;i++){
+    const dt = new Date(now.getFullYear(), now.getMonth()-i, 1);
+    months.unshift(dt);
+  }
+  months.forEach(dt=>{
+    const chip = document.createElement('div');
+    chip.className = 'month-chip';
+    if(dt.getFullYear()===surpriseViewDate.getFullYear() && dt.getMonth()===surpriseViewDate.getMonth()){
+      chip.classList.add('active');
+    }
+    chip.textContent = `${translations[lang].monthShort[dt.getMonth()]} ${dt.getFullYear()}`;
+    chip.onclick = ()=>{ surpriseViewDate = new Date(dt); renderSurprise(); };
+    picker.appendChild(chip);
+  });
+  const activeChip = picker.querySelector('.month-chip.active');
+  if(activeChip) activeChip.scrollIntoView({inline:'center', block:'nearest'});
+
+  const y = surpriseViewDate.getFullYear();
+  const m = surpriseViewDate.getMonth();
+  const evalResult = evaluateMonth(y,m);
+  const content = document.getElementById('surpriseContent');
+  const monthName = `${translations[lang].monthNames[m]} ${y}`;
+  const surprise = evalResult.surprise;
+  const surpriseTitle = (surprise && surprise.title) ? surprise.title : monthName;
+
+  if(evalResult.status === 'incomplete'){
+    content.innerHTML = `
+      <div class="locked-card">
+        <span class="emoji">🔒</span>
+        <h3>${t('surpriseLocked')}</h3>
+        <p>${t('monthIncomplete')}</p>
+        <div class="progress-row">${progressDots(evalResult)}</div>
+        <p style="font-size:12px;opacity:0.6;">${t('requirementNote')}</p>
+      </div>`;
+    return;
+  }
+
+  if(evalResult.status === 'failed'){
+    content.innerHTML = `
+      <div class="surprise-card">
+        <div class="sc-header">
+          <div class="month-name">${monthName}</div>
+          <div class="status">${t('statusFailed')}</div>
+        </div>
+      </div>
+      <div class="fail-card" style="margin-top:14px; border-radius:22px;">
+        <span class="emoji">💛</span>
+        <h3>${t('surpriseFailTitle')}</h3>
+        <p>${t('surpriseFailMsg')}</p>
+        <div class="progress-row">${progressDots(evalResult)}</div>
+      </div>`;
+    return;
+  }
+
+  // ready or revealed
+  const iconHtml = surprise && surprise.imageData
+    ? `<img src="${surprise.imageData}" alt="">`
+    : `<div class="emoji-icon">${(surprise && surprise.icon) || '🎁'}</div>`;
+  const message = (surprise && surprise.message) ? surprise.message : '';
+
+  content.innerHTML = `
+    <div class="surprise-card">
+      <div class="sc-header">
+        <div class="month-name">${surpriseTitle}</div>
+        <div class="status">${evalResult.status==='revealed' ? t('statusRevealed') : t('statusReady')}</div>
+      </div>
+      <div class="scratch-wrap">
+        <div class="scratch-reveal">
+          ${iconHtml}
+          <div class="reveal-title">${surpriseTitle}</div>
+          <div class="reveal-msg"></div>
+        </div>
+        ${evalResult.status==='ready' ? `<canvas class="scratch-canvas" id="scratchCanvas"></canvas><div class="scratch-hint">${t('scratchHint')}</div>` : ''}
+      </div>
+    </div>
+    <p style="text-align:center; font-size:13px; color:var(--muted); margin-top:14px;">
+      ${evalResult.status==='ready' ? t('surpriseReadyDesc') : ''}
+    </p>
+  `;
+  content.querySelector('.reveal-msg').textContent = message;
+
+  if(evalResult.status === 'ready'){
+    setupScratchCard(evalResult.monthKey);
+  }
+}
+
+function progressDots(evalResult){
+  let html = '';
+  for(let i=0;i<Math.max(evalResult.fullWeeksTotal,1);i++){
+    html += `<div class="progress-dot ${i < evalResult.fullWeeksCompleted ? 'done':''}"></div>`;
+  }
+  return html;
+}
+
+function setupScratchCard(monthKey){
+  const canvas = document.getElementById('scratchCanvas');
+  const wrap = canvas.closest('.scratch-wrap');
+  const ctx = canvas.getContext('2d');
+
+  function resize(){
+    const rect = wrap.getBoundingClientRect();
+    canvas.width = rect.width;
+    canvas.height = rect.height;
+    drawFoil();
+  }
+  function drawFoil(){
+    const w = canvas.width, h = canvas.height;
+    const grad = ctx.createLinearGradient(0,0,w,h);
+    grad.addColorStop(0,'#E6D2A6');
+    grad.addColorStop(0.5,'#C9A876');
+    grad.addColorStop(1,'#B8945F');
+    ctx.fillStyle = grad;
+    ctx.fillRect(0,0,w,h);
+    // texture lines
+    ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+    ctx.lineWidth = 1;
+    for(let i=0;i<w+h;i+=6){
+      ctx.beginPath();
+      ctx.moveTo(i,0);
+      ctx.lineTo(0,i);
+      ctx.stroke();
+    }
+    // label
+    ctx.fillStyle = 'rgba(46,42,36,0.55)';
+    ctx.font = '600 14px Inter, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(t('scratchHint').toUpperCase(), w/2, h/2);
+  }
+
+  resize();
+  window.addEventListener('resize', resize);
+
+  let isDrawing = false;
+  let scratchedPixels = 0;
+  const sampleStep = 8;
+
+  function getPos(e){
+    const rect = canvas.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+    return { x: clientX - rect.left, y: clientY - rect.top };
+  }
+
+  function scratchAt(x,y){
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.beginPath();
+    ctx.arc(x,y, 28, 0, Math.PI*2);
+    ctx.fill();
+  }
+
+  function checkComplete(){
+    // sample pixels
+    const w = canvas.width, h = canvas.height;
+    const data2 = ctx.getImageData(0,0,w,h).data;
+    let cleared = 0, total = 0;
+    for(let yy=0; yy<h; yy+=sampleStep){
+      for(let xx=0; xx<w; xx+=sampleStep){
+        total++;
+        const idx = (yy*w+xx)*4 + 3;
+        if(data2[idx] < 50) cleared++;
+      }
+    }
+    if(total>0 && cleared/total > 0.55){
+      finishScratch();
+    }
+  }
+
+  function finishScratch(){
+    canvas.style.transition = 'opacity .4s';
+    canvas.style.opacity = '0';
+    setTimeout(()=>{
+      canvas.remove();
+      const hintEl = wrap.querySelector('.scratch-hint');
+      if(hintEl) hintEl.remove();
+    }, 400);
+    data.surprises[monthKey] = data.surprises[monthKey] || {};
+    data.surprises[monthKey].revealed = true;
+    saveData();
+    const statusEl = wrap.closest('.surprise-card').querySelector('.status');
+    if(statusEl) statusEl.textContent = t('statusRevealed');
+    cloudMarkRevealed(monthKey); // best-effort, doesn't block the UI
+  }
+
+  function startScratch(e){ isDrawing = true; const p=getPos(e); scratchAt(p.x,p.y); e.preventDefault(); }
+  function moveScratch(e){ if(!isDrawing) return; const p=getPos(e); scratchAt(p.x,p.y); e.preventDefault(); }
+  function endScratch(){ if(isDrawing){ isDrawing=false; checkComplete(); } }
+
+  canvas.addEventListener('mousedown', startScratch);
+  canvas.addEventListener('mousemove', moveScratch);
+  canvas.addEventListener('mouseup', endScratch);
+  canvas.addEventListener('mouseleave', endScratch);
+  canvas.addEventListener('touchstart', startScratch, {passive:false});
+  canvas.addEventListener('touchmove', moveScratch, {passive:false});
+  canvas.addEventListener('touchend', endScratch);
+}
+
+/* ============ ADMIN ============ */
+function renderAdmin(){
+  const content = document.getElementById('adminContent');
+  if(!adminUnlocked){
+    content.innerHTML = `
+      <div class="admin-lock">
+        <span style="font-size:40px;">🔐</span>
+        <h2 class="display" style="margin:10px 0 0;">${t('adminTitle')}</h2>
+        <p style="font-size:13px; color:var(--muted); margin-top:8px;">${t('adminDesc')}</p>
+        <div>
+          <label class="field-label" style="display:block; margin-top:20px;">${t('adminPasswordLabel')}</label>
+          <input type="password" id="adminPassInput" />
+        </div>
+        <button class="btn btn-primary" id="adminUnlockBtn">${t('adminUnlock')}</button>
+        <div id="adminError" style="color:var(--terracotta); font-size:13px; margin-top:10px; display:none;">${t('adminWrongPass')}</div>
+      </div>`;
+    document.getElementById('adminUnlockBtn').onclick = ()=>{
+      const val = document.getElementById('adminPassInput').value;
+      if(val === ADMIN_CODE){
+        adminUnlocked = true;
+        renderAdmin();
+      } else {
+        document.getElementById('adminError').style.display = 'block';
+      }
+    };
+    document.getElementById('adminPassInput').addEventListener('keydown', e=>{
+      if(e.key==='Enter') document.getElementById('adminUnlockBtn').click();
+    });
+    return;
+  }
+
+  // build list of months: current month + next 11
+  const now = new Date();
+  let html = `
+    <div style="margin-bottom:18px;">
+      <h2 class="display" style="margin:0;">${t('adminTitle')}</h2>
+      <p style="font-size:13px; color:var(--muted); margin-top:6px;">${t('adminDesc')}</p>
+    </div>
+    <div style="background:${CLOUD_ENABLED ? 'rgba(159,190,140,0.15)' : 'rgba(232,130,95,0.12)'}; border:1px solid ${CLOUD_ENABLED ? 'var(--sage)' : 'var(--terracotta)'}; border-radius:14px; padding:12px 14px; font-size:12.5px; line-height:1.5; margin-bottom:18px;">
+      ${CLOUD_ENABLED ? t('cloudOn') : t('cloudOff')}
+    </div>`;
+
+  for(let i=0;i<12;i++){
+    const dt = new Date(now.getFullYear(), now.getMonth()+i, 1);
+    const y = dt.getFullYear(), m = dt.getMonth();
+    const monthKey = `${y}-${pad(m+1)}`;
+    const monthName = `${translations[lang].monthNames[m]} ${y}`;
+    const surprise = data.surprises[monthKey] || {};
+    html += `
+      <div class="admin-month-card" data-month="${monthKey}">
+        <h3>${monthName}</h3>
+        <div class="admin-row">
+          <label>${t('adminMonthTitleLabel')}</label>
+          <input type="text" class="surprise-title" placeholder="${t('adminMonthTitlePlaceholder')}" value="${escapeHtml(surprise.title||'')}" />
+        </div>
+        <div class="admin-row">
+          <label>${t('adminMessageLabel')}</label>
+          <textarea class="surprise-message" placeholder="${t('adminMessagePlaceholder')}">${escapeHtml(surprise.message||'')}</textarea>
+        </div>
+        <div class="admin-row">
+          <label>${t('adminIconLabel')}</label>
+          <div class="icon-picker">
+            ${ICON_OPTIONS.map(ic=>`<div class="icon-opt ${(!surprise.imageData && surprise.icon===ic)?'selected':''}" data-icon="${ic}">${ic}</div>`).join('')}
+          </div>
+        </div>
+        <div class="admin-row">
+          <label>${t('adminUploadLabel')}</label>
+          <input type="file" accept="image/*" class="surprise-image" />
+          ${surprise.imageData ? `<img src="${surprise.imageData}" style="width:60px;height:60px;border-radius:10px;object-fit:cover;margin-top:8px;" class="preview-img">` : `<img src="" style="display:none;width:60px;height:60px;border-radius:10px;object-fit:cover;margin-top:8px;" class="preview-img">`}
+        </div>
+        <button class="btn btn-primary btn-block save-surprise-btn">${t('adminSaveBtn')}</button>
+      </div>`;
+  }
+
+  html += `<button class="btn btn-secondary btn-block" id="adminLockBtn" style="margin-top:8px;">${t('adminLogout')}</button>`;
+  content.innerHTML = html;
+
+  // wire up each card
+  content.querySelectorAll('.admin-month-card').forEach(card=>{
+    const monthKey = card.dataset.month;
+    let selectedIcon = (data.surprises[monthKey] && data.surprises[monthKey].icon) || ICON_OPTIONS[0];
+    let imageData = (data.surprises[monthKey] && data.surprises[monthKey].imageData) || null;
+
+    card.querySelectorAll('.icon-opt').forEach(opt=>{
+      opt.onclick = ()=>{
+        card.querySelectorAll('.icon-opt').forEach(o=>o.classList.remove('selected'));
+        opt.classList.add('selected');
+        selectedIcon = opt.dataset.icon;
+        imageData = null;
+        card.querySelector('.preview-img').style.display = 'none';
+      };
+    });
+
+    card.querySelector('.surprise-image').onchange = (e)=>{
+      const file = e.target.files[0];
+      if(!file) return;
+      const reader = new FileReader();
+      reader.onload = (ev)=>{
+        imageData = ev.target.result;
+        const img = card.querySelector('.preview-img');
+        img.src = imageData;
+        img.style.display = 'block';
+        card.querySelectorAll('.icon-opt').forEach(o=>o.classList.remove('selected'));
+      };
+      reader.readAsDataURL(file);
+    };
+
+    card.querySelector('.save-surprise-btn').onclick = async ()=>{
+      const title = card.querySelector('.surprise-title').value;
+      const message = card.querySelector('.surprise-message').value;
+      const existing = data.surprises[monthKey] || {};
+      data.surprises[monthKey] = {
+        title, message,
+        icon: selectedIcon,
+        imageData: imageData,
+        revealed: existing.revealed || false
+      };
+      saveData();
+      renderSurprise();
+
+      const btn = card.querySelector('.save-surprise-btn');
+      if(CLOUD_ENABLED){
+        btn.disabled = true;
+        btn.textContent = t('adminSyncing');
+        const ok = await cloudPushSurprises();
+        btn.disabled = false;
+        btn.textContent = t('adminSaveBtn');
+        showToast(ok ? t('adminSaved') : t('adminSyncFailed'));
+      } else {
+        showToast(t('adminSaved'));
+      }
+    };
+  });
+
+  document.getElementById('adminLockBtn').onclick = ()=>{
+    adminUnlocked = false;
+    renderAdmin();
+  };
+}
+
+function escapeHtml(str){
+  return str.replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+/* ============ INIT ============ */
+// seed first month's surprise default if not set
+let seededDefault = false;
+(function seedDefault(){
+  const now = new Date();
+  const monthKey = `${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+  if(!data.surprises[monthKey]){
+    data.surprises[monthKey] = {
+      title: lang==='he' ? 'סדנת הכנת ראמן' : 'Ramen Making Workshop',
+      message: lang==='he'
+        ? 'הזמנתי לנו שני מקומות לסדנת הכנת ראמן! נחגוג את החודש הראשון שלך, נכין מרק מאפס ונרים כוסית (לא של אלכוהול, רק אטריות 🍜). אני כל כך גאה בך.\n\nבאהבה, ס.'
+        : "I booked us two spots at a ramen making workshop! Let's celebrate your first smoke-free month by making broth from scratch and slurping noodles together. I'm so proud of you.\n\nLove, S.",
+      icon: '🍜',
+      imageData: null,
+      revealed: false
+    };
+    saveData();
+    seededDefault = true;
+  }
+})();
+
+applyLang();
+
+// register service worker for offline/PWA support
+if('serviceWorker' in navigator){
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('sw.js').catch(()=>{});
+  });
+}
+
+// Pull the latest shared surprises from the cloud, then re-render.
+// If this is the very first run and the cloud bin is empty, push our
+// seeded default up so it becomes the shared starting point.
+(async function initCloud(){
+  if(!CLOUD_ENABLED) return;
+  const cloudHadData = await cloudFetchSurprises();
+  if(seededDefault && !cloudHadData){
+    // cloud bin was empty — push our seeded default so it becomes the shared starting point
+    await cloudPushSurprises();
+  }
+  applyLang();
+})();
+
+</script>
+</body>
+</html>
