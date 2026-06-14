@@ -1112,8 +1112,8 @@ function saveData(){ localStorage.setItem('osad_data', JSON.stringify(data)); }
    Uses jsonbin.io's free tier. Set CLOUD_BIN_ID and CLOUD_API_KEY below
    (see README for how to get these — takes 2 minutes, totally free).
    Stamps/notes/journal stay local-only and are never sent anywhere. */
-const CLOUD_BIN_ID = "PASTE_YOUR_BIN_ID_HERE";
-const CLOUD_API_KEY = "PASTE_YOUR_API_KEY_HERE";
+const CLOUD_BIN_ID = "6a2f0dc5da38895dfec019d8";
+const CLOUD_API_KEY = "$2a$10$zPrktVlgC6NzL17qnPusmOgJtcFX0KgKXTOnJmEdyeKN13DBz4BlK";
 const CLOUD_ENABLED = CLOUD_BIN_ID && CLOUD_API_KEY
   && !CLOUD_BIN_ID.startsWith("PASTE_") && !CLOUD_API_KEY.startsWith("PASTE_");
 const CLOUD_URL = `https://api.jsonbin.io/v3/b/${CLOUD_BIN_ID}`;
